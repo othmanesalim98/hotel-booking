@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="reservation_hotelModelStoreContainer" CdmEntityContainer="reservation_hotelEntities">
+    <EntitySetMapping Name="Chambres">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Chambre">
+        <MappingFragment StoreEntitySet="Chambre">
+          <ScalarProperty Name="idChambre" ColumnName="idChambre" />
+          <ScalarProperty Name="nomChambre" ColumnName="nomChambre" />
+          <ScalarProperty Name="etat" ColumnName="etat" />
+          <ScalarProperty Name="typeChambre" ColumnName="typeChambre" />
+          <ScalarProperty Name="prix_Ch" ColumnName="prix_Ch" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Client">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="idClient" ColumnName="idClient" />
+          <ScalarProperty Name="nom" ColumnName="nom" />
+          <ScalarProperty Name="prenom" ColumnName="prenom" />
+          <ScalarProperty Name="CIN" ColumnName="CIN" />
+          <ScalarProperty Name="ville" ColumnName="ville" />
+          <ScalarProperty Name="date_naisance" ColumnName="date_naisance" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Demande_service">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Demande_service">
+        <MappingFragment StoreEntitySet="Demande_service">
+          <ScalarProperty Name="idServiceDemander" ColumnName="idServiceDemander" />
+          <ScalarProperty Name="reservation" ColumnName="reservation" />
+          <ScalarProperty Name="service" ColumnName="service" />
+          <ScalarProperty Name="dateDemande" ColumnName="dateDemande" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Detail_Paiment">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Detail_Paiment">
+        <MappingFragment StoreEntitySet="Detail_Paiment">
+          <ScalarProperty Name="idDetail" ColumnName="idDetail" />
+          <ScalarProperty Name="Facture" ColumnName="Facture" />
+          <ScalarProperty Name="montantD" ColumnName="montantD" />
+          <ScalarProperty Name="datePayement" ColumnName="datePayement" />
+          <ScalarProperty Name="modePayment" ColumnName="modePayment" />
+          <ScalarProperty Name="detailModePaiment" ColumnName="detailModePaiment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Factures">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Facture">
+        <MappingFragment StoreEntitySet="Facture">
+          <ScalarProperty Name="idFacture" ColumnName="idFacture" />
+          <ScalarProperty Name="reservation" ColumnName="reservation" />
+          <ScalarProperty Name="montant" ColumnName="montant" />
+          <ScalarProperty Name="statusF" ColumnName="statusF" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mode_Payment">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Mode_Payment">
+        <MappingFragment StoreEntitySet="Mode_Payment">
+          <ScalarProperty Name="idMode_Payment" ColumnName="idMode_Payment" />
+          <ScalarProperty Name="typePayment" ColumnName="typePayment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OccupChambres">
+      <EntityTypeMapping TypeName="reservation_hotelModel.OccupChambre">
+        <MappingFragment StoreEntitySet="OccupChambre">
+          <ScalarProperty Name="idOccupChambre" ColumnName="idOccupChambre" />
+          <ScalarProperty Name="reservation" ColumnName="reservation" />
+          <ScalarProperty Name="chambre" ColumnName="chambre" />
+          <ScalarProperty Name="dateOccup" ColumnName="dateOccup" />
+          <ScalarProperty Name="dateDispo" ColumnName="dateDispo" />
+          <ScalarProperty Name="typeO" ColumnName="typeO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservations">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Reservation">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+          <ScalarProperty Name="dateReservation" ColumnName="dateReservation" />
+          <ScalarProperty Name="dateArrive" ColumnName="dateArrive" />
+          <ScalarProperty Name="dateDepart" ColumnName="dateDepart" />
+          <ScalarProperty Name="client" ColumnName="client" />
+          <ScalarProperty Name="chambre" ColumnName="chambre" />
+          <ScalarProperty Name="typeReservation" ColumnName="typeReservation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="reservation_hotelModel.Service">
+        <MappingFragment StoreEntitySet="Services">
+          <ScalarProperty Name="idService" ColumnName="idService" />
+          <ScalarProperty Name="nomService" ColumnName="nomService" />
+          <ScalarProperty Name="prix_Se" ColumnName="prix_Se" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TypeChambres">
+      <EntityTypeMapping TypeName="reservation_hotelModel.TypeChambre">
+        <MappingFragment StoreEntitySet="TypeChambre">
+          <ScalarProperty Name="idTypeChambre" ColumnName="idTypeChambre" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

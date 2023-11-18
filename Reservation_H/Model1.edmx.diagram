@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a7b04997c9c84094a444ea8aff6f1640" Name="Diagram1">
+        <EntityTypeShape EntityType="reservation_hotelModel.Chambre" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Client" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Demande_service" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Detail_Paiment" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Facture" Width="1.5" PointX="10.5" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Mode_Payment" Width="1.5" PointX="10.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.OccupChambre" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Reservation" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.Service" Width="1.5" PointX="8.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="reservation_hotelModel.TypeChambre" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Chambre__typeCha__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__OccupCham__chamb__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Reservati__chamb__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Reservati__clien__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Demande_s__reser__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Demande_s__servi__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Detail_Pa__Factu__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Detail_Pa__modeP__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__Facture__reserva__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="reservation_hotelModel.FK__OccupCham__reser__2E1BDC42" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

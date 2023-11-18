@@ -1,0 +1,707 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="reservation_hotelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Chambre">
+          <Key>
+            <PropertyRef Name="idChambre" />
+          </Key>
+          <Property Name="idChambre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nomChambre" Type="varchar" MaxLength="20" />
+          <Property Name="etat" Type="varchar" MaxLength="10" />
+          <Property Name="typeChambre" Type="int" Nullable="false" />
+          <Property Name="prix_Ch" Type="money" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="int" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="20" />
+          <Property Name="prenom" Type="varchar" MaxLength="20" />
+          <Property Name="CIN" Type="varchar" MaxLength="8" />
+          <Property Name="ville" Type="varchar" MaxLength="30" />
+          <Property Name="date_naisance" Type="date" />
+          <Property Name="telephone" Type="varchar" MaxLength="13" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Demande_service">
+          <Key>
+            <PropertyRef Name="idServiceDemander" />
+          </Key>
+          <Property Name="idServiceDemander" Type="int" Nullable="false" />
+          <Property Name="reservation" Type="int" />
+          <Property Name="service" Type="int" Nullable="false" />
+          <Property Name="dateDemande" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Detail_Paiment">
+          <Key>
+            <PropertyRef Name="idDetail" />
+          </Key>
+          <Property Name="idDetail" Type="int" Nullable="false" />
+          <Property Name="Facture" Type="int" />
+          <Property Name="montantD" Type="money" />
+          <Property Name="datePayement" Type="datetime" />
+          <Property Name="modePayment" Type="int" />
+          <Property Name="detailModePaiment" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="Facture">
+          <Key>
+            <PropertyRef Name="idFacture" />
+          </Key>
+          <Property Name="idFacture" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reservation" Type="int" />
+          <Property Name="montant" Type="money" />
+          <Property Name="statusF" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Mode_Payment">
+          <Key>
+            <PropertyRef Name="idMode_Payment" />
+          </Key>
+          <Property Name="idMode_Payment" Type="int" Nullable="false" />
+          <Property Name="typePayment" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OccupChambre">
+          <Key>
+            <PropertyRef Name="idOccupChambre" />
+          </Key>
+          <Property Name="idOccupChambre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reservation" Type="int" />
+          <Property Name="chambre" Type="int" />
+          <Property Name="dateOccup" Type="datetime" />
+          <Property Name="dateDispo" Type="datetime" />
+          <Property Name="typeO" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="idReservation" />
+          </Key>
+          <Property Name="idReservation" Type="int" Nullable="false" />
+          <Property Name="dateReservation" Type="date" Nullable="false" />
+          <Property Name="dateArrive" Type="date" Nullable="false" />
+          <Property Name="dateDepart" Type="date" Nullable="false" />
+          <Property Name="client" Type="int" Nullable="false" />
+          <Property Name="chambre" Type="int" />
+          <Property Name="typeReservation" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idService" Type="int" Nullable="false" />
+          <Property Name="nomService" Type="varchar" MaxLength="20" />
+          <Property Name="prix_Se" Type="money" />
+        </EntityType>
+        <EntityType Name="TypeChambre">
+          <Key>
+            <PropertyRef Name="idTypeChambre" />
+          </Key>
+          <Property Name="idTypeChambre" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="17" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Chambre__typeCha__20C1E124">
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeChambre">
+              <PropertyRef Name="idTypeChambre" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="typeChambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Demande_s__reser__31EC6D26">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Demande_service" Type="Self.Demande_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Demande_service">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Demande_s__servi__32E0915F">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Demande_service" Type="Self.Demande_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="Demande_service">
+              <PropertyRef Name="service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail_Pa__Factu__38996AB5">
+          <End Role="Facture" Type="Self.Facture" Multiplicity="0..1" />
+          <End Role="Detail_Paiment" Type="Self.Detail_Paiment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facture">
+              <PropertyRef Name="idFacture" />
+            </Principal>
+            <Dependent Role="Detail_Paiment">
+              <PropertyRef Name="Facture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail_Pa__modeP__398D8EEE">
+          <End Role="Mode_Payment" Type="Self.Mode_Payment" Multiplicity="0..1" />
+          <End Role="Detail_Paiment" Type="Self.Detail_Paiment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mode_Payment">
+              <PropertyRef Name="idMode_Payment" />
+            </Principal>
+            <Dependent Role="Detail_Paiment">
+              <PropertyRef Name="modePayment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Facture__reserva__35BCFE0A">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Facture" Type="Self.Facture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Facture">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OccupCham__chamb__2F10007B">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="0..1" />
+          <End Role="OccupChambre" Type="Self.OccupChambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="OccupChambre">
+              <PropertyRef Name="chambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OccupCham__reser__2E1BDC42">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="OccupChambre" Type="Self.OccupChambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="OccupChambre">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__chamb__276EDEB3">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="chambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__clien__267ABA7A">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="reservation_hotelModelStoreContainer">
+          <EntitySet Name="Chambre" EntityType="Self.Chambre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Demande_service" EntityType="Self.Demande_service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Detail_Paiment" EntityType="Self.Detail_Paiment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facture" EntityType="Self.Facture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mode_Payment" EntityType="Self.Mode_Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OccupChambre" EntityType="Self.OccupChambre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeChambre" EntityType="Self.TypeChambre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Chambre__typeCha__20C1E124" Association="Self.FK__Chambre__typeCha__20C1E124">
+            <End Role="TypeChambre" EntitySet="TypeChambre" />
+            <End Role="Chambre" EntitySet="Chambre" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Demande_s__reser__31EC6D26" Association="Self.FK__Demande_s__reser__31EC6D26">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Demande_service" EntitySet="Demande_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Demande_s__servi__32E0915F" Association="Self.FK__Demande_s__servi__32E0915F">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Demande_service" EntitySet="Demande_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail_Pa__Factu__38996AB5" Association="Self.FK__Detail_Pa__Factu__38996AB5">
+            <End Role="Facture" EntitySet="Facture" />
+            <End Role="Detail_Paiment" EntitySet="Detail_Paiment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail_Pa__modeP__398D8EEE" Association="Self.FK__Detail_Pa__modeP__398D8EEE">
+            <End Role="Mode_Payment" EntitySet="Mode_Payment" />
+            <End Role="Detail_Paiment" EntitySet="Detail_Paiment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Facture__reserva__35BCFE0A" Association="Self.FK__Facture__reserva__35BCFE0A">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Facture" EntitySet="Facture" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OccupCham__chamb__2F10007B" Association="Self.FK__OccupCham__chamb__2F10007B">
+            <End Role="Chambre" EntitySet="Chambre" />
+            <End Role="OccupChambre" EntitySet="OccupChambre" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OccupCham__reser__2E1BDC42" Association="Self.FK__OccupCham__reser__2E1BDC42">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="OccupChambre" EntitySet="OccupChambre" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__chamb__276EDEB3" Association="Self.FK__Reservati__chamb__276EDEB3">
+            <End Role="Chambre" EntitySet="Chambre" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__clien__267ABA7A" Association="Self.FK__Reservati__clien__267ABA7A">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="reservation_hotelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Chambre">
+          <Key>
+            <PropertyRef Name="idChambre" />
+          </Key>
+          <Property Name="idChambre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nomChambre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="etat" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="typeChambre" Type="Int32" Nullable="false" />
+          <Property Name="prix_Ch" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="TypeChambre1" Relationship="Self.FK__Chambre__typeCha__20C1E124" FromRole="Chambre" ToRole="TypeChambre" />
+          <NavigationProperty Name="OccupChambres" Relationship="Self.FK__OccupCham__chamb__2F10007B" FromRole="Chambre" ToRole="OccupChambre" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__chamb__276EDEB3" FromRole="Chambre" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="idClient" />
+          </Key>
+          <Property Name="idClient" Type="Int32" Nullable="false" />
+          <Property Name="nom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="prenom" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CIN" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="ville" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="date_naisance" Type="DateTime" Precision="0" />
+          <Property Name="telephone" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Reservations" Relationship="Self.FK__Reservati__clien__267ABA7A" FromRole="Client" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Demande_service">
+          <Key>
+            <PropertyRef Name="idServiceDemander" />
+          </Key>
+          <Property Name="idServiceDemander" Type="Int32" Nullable="false" />
+          <Property Name="reservation" Type="Int32" />
+          <Property Name="service" Type="Int32" Nullable="false" />
+          <Property Name="dateDemande" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Reservation1" Relationship="Self.FK__Demande_s__reser__31EC6D26" FromRole="Demande_service" ToRole="Reservation" />
+          <NavigationProperty Name="Service1" Relationship="Self.FK__Demande_s__servi__32E0915F" FromRole="Demande_service" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="Detail_Paiment">
+          <Key>
+            <PropertyRef Name="idDetail" />
+          </Key>
+          <Property Name="idDetail" Type="Int32" Nullable="false" />
+          <Property Name="Facture" Type="Int32" />
+          <Property Name="montantD" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="datePayement" Type="DateTime" Precision="3" />
+          <Property Name="modePayment" Type="Int32" />
+          <Property Name="detailModePaiment" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facture1" Relationship="Self.FK__Detail_Pa__Factu__38996AB5" FromRole="Detail_Paiment" ToRole="Facture" />
+          <NavigationProperty Name="Mode_Payment" Relationship="Self.FK__Detail_Pa__modeP__398D8EEE" FromRole="Detail_Paiment" ToRole="Mode_Payment" />
+        </EntityType>
+        <EntityType Name="Facture">
+          <Key>
+            <PropertyRef Name="idFacture" />
+          </Key>
+          <Property Name="idFacture" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reservation" Type="Int32" />
+          <Property Name="montant" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="statusF" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Detail_Paiment" Relationship="Self.FK__Detail_Pa__Factu__38996AB5" FromRole="Facture" ToRole="Detail_Paiment" />
+          <NavigationProperty Name="Reservation1" Relationship="Self.FK__Facture__reserva__35BCFE0A" FromRole="Facture" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Mode_Payment">
+          <Key>
+            <PropertyRef Name="idMode_Payment" />
+          </Key>
+          <Property Name="idMode_Payment" Type="Int32" Nullable="false" />
+          <Property Name="typePayment" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Detail_Paiment" Relationship="Self.FK__Detail_Pa__modeP__398D8EEE" FromRole="Mode_Payment" ToRole="Detail_Paiment" />
+        </EntityType>
+        <EntityType Name="OccupChambre">
+          <Key>
+            <PropertyRef Name="idOccupChambre" />
+          </Key>
+          <Property Name="idOccupChambre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reservation" Type="Int32" />
+          <Property Name="chambre" Type="Int32" />
+          <Property Name="dateOccup" Type="DateTime" Precision="3" />
+          <Property Name="dateDispo" Type="DateTime" Precision="3" />
+          <Property Name="typeO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Chambre1" Relationship="Self.FK__OccupCham__chamb__2F10007B" FromRole="OccupChambre" ToRole="Chambre" />
+          <NavigationProperty Name="Reservation1" Relationship="Self.FK__OccupCham__reser__2E1BDC42" FromRole="OccupChambre" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="idReservation" />
+          </Key>
+          <Property Name="idReservation" Type="Int32" Nullable="false" />
+          <Property Name="dateReservation" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateArrive" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dateDepart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="client" Type="Int32" Nullable="false" />
+          <Property Name="chambre" Type="Int32" />
+          <Property Name="typeReservation" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Chambre1" Relationship="Self.FK__Reservati__chamb__276EDEB3" FromRole="Reservation" ToRole="Chambre" />
+          <NavigationProperty Name="Client1" Relationship="Self.FK__Reservati__clien__267ABA7A" FromRole="Reservation" ToRole="Client" />
+          <NavigationProperty Name="Demande_service" Relationship="Self.FK__Demande_s__reser__31EC6D26" FromRole="Reservation" ToRole="Demande_service" />
+          <NavigationProperty Name="Factures" Relationship="Self.FK__Facture__reserva__35BCFE0A" FromRole="Reservation" ToRole="Facture" />
+          <NavigationProperty Name="OccupChambres" Relationship="Self.FK__OccupCham__reser__2E1BDC42" FromRole="Reservation" ToRole="OccupChambre" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idService" Type="Int32" Nullable="false" />
+          <Property Name="nomService" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="prix_Se" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Demande_service" Relationship="Self.FK__Demande_s__servi__32E0915F" FromRole="Services" ToRole="Demande_service" />
+        </EntityType>
+        <EntityType Name="TypeChambre">
+          <Key>
+            <PropertyRef Name="idTypeChambre" />
+          </Key>
+          <Property Name="idTypeChambre" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Chambres" Relationship="Self.FK__Chambre__typeCha__20C1E124" FromRole="TypeChambre" ToRole="Chambre" />
+        </EntityType>
+        <Association Name="FK__Chambre__typeCha__20C1E124">
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeChambre">
+              <PropertyRef Name="idTypeChambre" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="typeChambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OccupCham__chamb__2F10007B">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="0..1" />
+          <End Role="OccupChambre" Type="Self.OccupChambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="OccupChambre">
+              <PropertyRef Name="chambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__chamb__276EDEB3">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="0..1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="chambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Reservati__clien__267ABA7A">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="idClient" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Demande_s__reser__31EC6D26">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Demande_service" Type="Self.Demande_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Demande_service">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Demande_s__servi__32E0915F">
+          <End Role="Services" Type="Self.Service" Multiplicity="1" />
+          <End Role="Demande_service" Type="Self.Demande_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="Demande_service">
+              <PropertyRef Name="service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail_Pa__Factu__38996AB5">
+          <End Role="Facture" Type="Self.Facture" Multiplicity="0..1" />
+          <End Role="Detail_Paiment" Type="Self.Detail_Paiment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facture">
+              <PropertyRef Name="idFacture" />
+            </Principal>
+            <Dependent Role="Detail_Paiment">
+              <PropertyRef Name="Facture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Detail_Pa__modeP__398D8EEE">
+          <End Role="Mode_Payment" Type="Self.Mode_Payment" Multiplicity="0..1" />
+          <End Role="Detail_Paiment" Type="Self.Detail_Paiment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mode_Payment">
+              <PropertyRef Name="idMode_Payment" />
+            </Principal>
+            <Dependent Role="Detail_Paiment">
+              <PropertyRef Name="modePayment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Facture__reserva__35BCFE0A">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="Facture" Type="Self.Facture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="Facture">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OccupCham__reser__2E1BDC42">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <End Role="OccupChambre" Type="Self.OccupChambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="idReservation" />
+            </Principal>
+            <Dependent Role="OccupChambre">
+              <PropertyRef Name="reservation" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="reservation_hotelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chambres" EntityType="Self.Chambre" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Demande_service" EntityType="Self.Demande_service" />
+          <EntitySet Name="Detail_Paiment" EntityType="Self.Detail_Paiment" />
+          <EntitySet Name="Factures" EntityType="Self.Facture" />
+          <EntitySet Name="Mode_Payment" EntityType="Self.Mode_Payment" />
+          <EntitySet Name="OccupChambres" EntityType="Self.OccupChambre" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservation" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="TypeChambres" EntityType="Self.TypeChambre" />
+          <AssociationSet Name="FK__Chambre__typeCha__20C1E124" Association="Self.FK__Chambre__typeCha__20C1E124">
+            <End Role="TypeChambre" EntitySet="TypeChambres" />
+            <End Role="Chambre" EntitySet="Chambres" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OccupCham__chamb__2F10007B" Association="Self.FK__OccupCham__chamb__2F10007B">
+            <End Role="Chambre" EntitySet="Chambres" />
+            <End Role="OccupChambre" EntitySet="OccupChambres" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__chamb__276EDEB3" Association="Self.FK__Reservati__chamb__276EDEB3">
+            <End Role="Chambre" EntitySet="Chambres" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Reservati__clien__267ABA7A" Association="Self.FK__Reservati__clien__267ABA7A">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Reservation" EntitySet="Reservations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Demande_s__reser__31EC6D26" Association="Self.FK__Demande_s__reser__31EC6D26">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="Demande_service" EntitySet="Demande_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Demande_s__servi__32E0915F" Association="Self.FK__Demande_s__servi__32E0915F">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Demande_service" EntitySet="Demande_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail_Pa__Factu__38996AB5" Association="Self.FK__Detail_Pa__Factu__38996AB5">
+            <End Role="Facture" EntitySet="Factures" />
+            <End Role="Detail_Paiment" EntitySet="Detail_Paiment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Detail_Pa__modeP__398D8EEE" Association="Self.FK__Detail_Pa__modeP__398D8EEE">
+            <End Role="Mode_Payment" EntitySet="Mode_Payment" />
+            <End Role="Detail_Paiment" EntitySet="Detail_Paiment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Facture__reserva__35BCFE0A" Association="Self.FK__Facture__reserva__35BCFE0A">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="Facture" EntitySet="Factures" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OccupCham__reser__2E1BDC42" Association="Self.FK__OccupCham__reser__2E1BDC42">
+            <End Role="Reservation" EntitySet="Reservations" />
+            <End Role="OccupChambre" EntitySet="OccupChambres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="reservation_hotelModelStoreContainer" CdmEntityContainer="reservation_hotelEntities">
+          <EntitySetMapping Name="Chambres">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Chambre">
+              <MappingFragment StoreEntitySet="Chambre">
+                <ScalarProperty Name="idChambre" ColumnName="idChambre" />
+                <ScalarProperty Name="nomChambre" ColumnName="nomChambre" />
+                <ScalarProperty Name="etat" ColumnName="etat" />
+                <ScalarProperty Name="typeChambre" ColumnName="typeChambre" />
+                <ScalarProperty Name="prix_Ch" ColumnName="prix_Ch" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="idClient" ColumnName="idClient" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="prenom" ColumnName="prenom" />
+                <ScalarProperty Name="CIN" ColumnName="CIN" />
+                <ScalarProperty Name="ville" ColumnName="ville" />
+                <ScalarProperty Name="date_naisance" ColumnName="date_naisance" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Demande_service">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Demande_service">
+              <MappingFragment StoreEntitySet="Demande_service">
+                <ScalarProperty Name="idServiceDemander" ColumnName="idServiceDemander" />
+                <ScalarProperty Name="reservation" ColumnName="reservation" />
+                <ScalarProperty Name="service" ColumnName="service" />
+                <ScalarProperty Name="dateDemande" ColumnName="dateDemande" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Detail_Paiment">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Detail_Paiment">
+              <MappingFragment StoreEntitySet="Detail_Paiment">
+                <ScalarProperty Name="idDetail" ColumnName="idDetail" />
+                <ScalarProperty Name="Facture" ColumnName="Facture" />
+                <ScalarProperty Name="montantD" ColumnName="montantD" />
+                <ScalarProperty Name="datePayement" ColumnName="datePayement" />
+                <ScalarProperty Name="modePayment" ColumnName="modePayment" />
+                <ScalarProperty Name="detailModePaiment" ColumnName="detailModePaiment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factures">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Facture">
+              <MappingFragment StoreEntitySet="Facture">
+                <ScalarProperty Name="idFacture" ColumnName="idFacture" />
+                <ScalarProperty Name="reservation" ColumnName="reservation" />
+                <ScalarProperty Name="montant" ColumnName="montant" />
+                <ScalarProperty Name="statusF" ColumnName="statusF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mode_Payment">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Mode_Payment">
+              <MappingFragment StoreEntitySet="Mode_Payment">
+                <ScalarProperty Name="idMode_Payment" ColumnName="idMode_Payment" />
+                <ScalarProperty Name="typePayment" ColumnName="typePayment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OccupChambres">
+            <EntityTypeMapping TypeName="reservation_hotelModel.OccupChambre">
+              <MappingFragment StoreEntitySet="OccupChambre">
+                <ScalarProperty Name="idOccupChambre" ColumnName="idOccupChambre" />
+                <ScalarProperty Name="reservation" ColumnName="reservation" />
+                <ScalarProperty Name="chambre" ColumnName="chambre" />
+                <ScalarProperty Name="dateOccup" ColumnName="dateOccup" />
+                <ScalarProperty Name="dateDispo" ColumnName="dateDispo" />
+                <ScalarProperty Name="typeO" ColumnName="typeO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="idReservation" ColumnName="idReservation" />
+                <ScalarProperty Name="dateReservation" ColumnName="dateReservation" />
+                <ScalarProperty Name="dateArrive" ColumnName="dateArrive" />
+                <ScalarProperty Name="dateDepart" ColumnName="dateDepart" />
+                <ScalarProperty Name="client" ColumnName="client" />
+                <ScalarProperty Name="chambre" ColumnName="chambre" />
+                <ScalarProperty Name="typeReservation" ColumnName="typeReservation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="reservation_hotelModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="idService" ColumnName="idService" />
+                <ScalarProperty Name="nomService" ColumnName="nomService" />
+                <ScalarProperty Name="prix_Se" ColumnName="prix_Se" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeChambres">
+            <EntityTypeMapping TypeName="reservation_hotelModel.TypeChambre">
+              <MappingFragment StoreEntitySet="TypeChambre">
+                <ScalarProperty Name="idTypeChambre" ColumnName="idTypeChambre" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
